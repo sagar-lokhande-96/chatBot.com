@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-
+import userRoute from "./routes/user.route.js";
 
 dotenv.config();
 const app = express();
@@ -14,9 +14,10 @@ mongoose.connect(MONGO_URL).then(()=>{
     console.log("MONGODB connection Error : ",err);
 })
 
-app.get("/",(req,res)=>{
-    res.send("hello");
-})
+// Routes
+
+app.use("/api/v1/user", userRoute);
+
 app.listen(PORT, ()=>{
     console.log(`app rendered on http://localhost:${PORT}`);
 } )
