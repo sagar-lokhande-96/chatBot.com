@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import userRoute from "./routes/user.route.js";
+import cookieParser  from "cookie-parser";
 
 dotenv.config();
 const app = express();
@@ -14,9 +15,12 @@ mongoose.connect(MONGO_URL).then(()=>{
     console.log("MONGODB connection Error : ",err);
 })
 
-// Routes
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+
+// Routes
+
 app.use("/api/v1/user", userRoute);
 
 app.listen(PORT, ()=>{
