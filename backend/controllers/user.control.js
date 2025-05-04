@@ -1,11 +1,9 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken"; // Import JWT
-import config  from "dotenv";
+import jwt from "jsonwebtoken";
+import config  from "../config.js";
 
-// Load environment variables
-config();
-
+// Signup function 
 export const signUp = async (req, res) => {
   try {
     const { firstname, lastname, password, email } = req.body;
@@ -70,13 +68,13 @@ export const logIn = async (req, res) => {
         expires : new Date(Date.now()+24*60*60*1000),
         httpOnly: true, // protect from XSS attacks
         secure: process.env.NODE_ENV === "production", // Set to true in production
-        sameSites: "Strict" // to protect us from CSRF attacks
+        sameSite: "Strict" // to protect us from CSRF attacks
     }
     // Set the token in cookies
-    res.cookie("JWT", token, cookieOptions);
+    res.cookie("jwt", token, cookieOptions);
 
     
-    return res.status(200).json({
+    return res.status(201).json({
       message: "User logged in successfully", existingUser, token
     });
   } catch (error) {
@@ -93,7 +91,7 @@ export const logIn = async (req, res) => {
 export const logOut = (req, res) => {
   try {
     res.clearCookie("JWT");
-    return res.status(200).json({
+    return res.status(201).json({
       message: "User logged out successfully",
     });
   } catch (error) {

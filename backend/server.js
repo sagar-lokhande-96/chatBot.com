@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import userRoute from "./routes/user.route.js";
 import cookieParser  from "cookie-parser";
+import promptRoute from "./routes/prompt.route.js";
 
 dotenv.config();
 const app = express();
@@ -22,6 +23,7 @@ app.use(express.urlencoded({extended:true}));
 // Routes
 
 app.use("/api/v1/user", userRoute);
+app.use("/api/v1/mitra", promptRoute);
 
 app.listen(PORT, ()=>{
     console.log(`app rendered on http://localhost:${PORT}`);
