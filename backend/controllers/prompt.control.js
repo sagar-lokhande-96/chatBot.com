@@ -12,7 +12,7 @@ export const getPrompt = async (req, res) => {
   const { content } = req.body;
   const userId = req.userId;
   if(!content || content.trim() === ""){
-    return res.status(400).json({ errors: "Content is required"});
+    return res.status(400).json({ errors: "Content is required!!!"});
   }
   
   try {
@@ -25,7 +25,7 @@ export const getPrompt = async (req, res) => {
 
     //send prompt to AI model
     const completion = await openai.chat.completions.create({
-      model: "deepseek-chat", // DeepSeek's model name
+      model: "deepseek-chat", // model name
       messages: [
         { role: "user", content: content },
       ],
@@ -35,7 +35,8 @@ export const getPrompt = async (req, res) => {
 
     // save AI response in DB
     const aiResponse  = await Prompt.create({
-      role:"user",
+      userId,
+      role:"assistant",
       content: output,
     })
 
